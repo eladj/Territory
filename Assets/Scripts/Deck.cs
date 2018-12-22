@@ -6,7 +6,6 @@ using UnityEditor;
 
 public class Deck : MonoBehaviour
 {
-    public GameObject tilePrefab;
     public GameObject dominoTilePrefab;
 
     void Start(){
@@ -22,10 +21,6 @@ public class Deck : MonoBehaviour
             go_DominoTile.name = "DominoTile " + (n+1).ToString();
             GameObject go_tileLeft = go_DominoTile.transform.Find("TileLeft").gameObject;
             GameObject go_tileRight = go_DominoTile.transform.Find("TileRight").gameObject;
-
-            // Make the single Tiles GameObject's children of the DominoTile GameObject
-            go_tileLeft.transform.parent = go_DominoTile.transform;
-            go_tileRight.transform.parent = go_DominoTile.transform;
 
             // Set the game properties of the tiles
             go_tileLeft.GetComponent<Tile>().Set(default_tiles[n].left_type, default_tiles[n].left_crowns);
