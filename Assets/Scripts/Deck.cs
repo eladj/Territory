@@ -23,18 +23,20 @@ public class Deck : MonoBehaviour
             GameObject go_tileRight = go_DominoTile.transform.Find("TileRight").gameObject;
 
             // Set the game properties of the tiles
-            go_tileLeft.GetComponent<Tile>().Set(default_tiles[n].left_type, default_tiles[n].left_crowns);
-            go_tileRight.GetComponent<Tile>().Set(default_tiles[n].right_type, default_tiles[n].right_crowns);
-            go_DominoTile.GetComponent<DominoTile>().Set(
-                go_tileLeft.GetComponent<Tile>(),
-                go_tileRight.GetComponent<Tile>(),
-                n+1);
+            Tile left_tile = go_tileLeft.GetComponent<Tile>();
+            Tile right_tile = go_tileRight.GetComponent<Tile>();
+            left_tile.Set(default_tiles[n].left_type, default_tiles[n].left_crowns);
+            right_tile.Set(default_tiles[n].right_type, default_tiles[n].right_crowns);
+
+            // Create the DominoTile from the 2 tiles
+            go_DominoTile.GetComponent<DominoTile>().Set(left_tile, right_tile, n+1);
 
             // Make the DominoTile child of Deck
             go_DominoTile.transform.parent = transform;
+            go_DominoTile.transform.position = go_DominoTile.transform.position + new Vector3(2*Mathf.Floor(n / 12.0f) - 4, -(n % 12) + 4, 0);
 
             // Disable the new DominoTile
-            go_DominoTile.SetActive(false);
+            // go_DominoTile.SetActive(false);
         }
     }
 
