@@ -4,6 +4,8 @@ using UnityEngine;
 using System.IO;
 using UnityEditor;
 
+namespace Territory{
+
 public class Deck : MonoBehaviour
 {
     public GameObject dominoTilePrefab;
@@ -40,6 +42,10 @@ public class Deck : MonoBehaviour
         }
     }
 
+    public GameObject GetDominoTileByIndex(int index){
+        return transform.Find("DominoTile" + index.ToString()).gameObject;
+    }
+
     // Get the default types of domino tiles
     private List<TileRow> GetDefaultDominoTiles(){
         string[] guids = AssetDatabase.FindAssets("DominoTilesCSV", null);
@@ -63,9 +69,9 @@ public class Deck : MonoBehaviour
             // Storing to variable
             var data_values = data_string.Split(',');
             // Debug.Log(data_values[0].ToString() + " " + data_values[1].ToString() + " " + data_values[2].ToString() + " " + data_values[3].ToString());
-            TerrainType left_type = (TerrainType) System.Enum.Parse( typeof(TerrainType), data_values[0]);
+            TerrainType left_type = (TerrainType) System.Enum.Parse(typeof(TerrainType), data_values[0]);
             int left_crowns = int.Parse(data_values[1]);
-            TerrainType right_type = (TerrainType) System.Enum.Parse( typeof(TerrainType), data_values[2]);
+            TerrainType right_type = (TerrainType) System.Enum.Parse(typeof(TerrainType), data_values[2]);
             int right_crowns = int.Parse(data_values[3]);
             TileRow row = new TileRow(left_type, left_crowns, right_type, right_crowns);
             result.Add(row);
@@ -87,4 +93,6 @@ public class Deck : MonoBehaviour
             right_crowns = _right_crowns;
         }      
     }
+}
+
 }

@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+namespace Territory{
+
 public enum TerrainType {Desert, Sea, Forest, Grass, Mud, Mine, Castle};
 
 public class Tile : MonoBehaviour
@@ -37,4 +39,6 @@ public class Tile : MonoBehaviour
             // Other option is that the Player or Kingdom class will handle this drawing.
         }
     }
+}
+
 }

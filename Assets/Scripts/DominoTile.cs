@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+namespace Territory{
+
 // We assume the left tile is always in the origin location.
 //   - Rot0: the right tile is on the right
 //   - Rot90: right tile is up
@@ -22,4 +24,6 @@ public class DominoTile : MonoBehaviour
         sortIndex = _sortIndex;
         rotationType = _rotationType;
     }
+}
+
 }
