@@ -17,6 +17,7 @@ public class Move : ScriptableObject {
             }
         }
     }
+    public RotationType rotationType;
     public PlayerColor playerColor;
     public BitArray2D position = new BitArray2D(cols: Board.NUM_COLS_REPR, rows: Board.NUM_ROWS_REPR);
 }

@@ -24,6 +24,31 @@ public class DominoTile : MonoBehaviour
         sortIndex = _sortIndex;
         rotationType = _rotationType;
     }
+
+  public override string ToString()
+  {
+    return string.Format("[#{0}, Rot={1}]", sortIndex, rotationType.ToString());
+  }
+
+  public override bool Equals(object obj)
+  {
+    return ((obj != null) && (obj is DominoTile) && (this.sortIndex == ((DominoTile)obj).sortIndex));
+  }
+
+  public override int GetHashCode()
+  {
+    return this.sortIndex.GetHashCode();
+  }
+
+  public int CompareTo(DominoTile other)
+  {
+    if (this.sortIndex == other.sortIndex)
+      return 0;
+    else if (this.sortIndex < other.sortIndex)
+      return -1;
+    else
+      return 1; // this.other > other.other
+  }  
 }
 
 }
