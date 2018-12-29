@@ -16,7 +16,31 @@ public class DominoTile : MonoBehaviour
     public Tile leftTile;
     public Tile rightTile;
     public int sortIndex;
-    public RotationType rotationType = RotationType.Rot0;
+    // public RotationType rotationType = RotationType.Rot0;
+    public RotationType rotationType{
+        get{
+            return _rotationType;
+        }
+        set{
+            _rotationType = value;
+            // Apply the rotation on the GameObject
+            switch (value){
+                case RotationType.Rot0:
+                    transform.eulerAngles = new Vector3(0, 0, 0);
+                    break;
+                case RotationType.Rot90:
+                    transform.eulerAngles = new Vector3(0, 0, 90);
+                    break;
+                case RotationType.Rot180:
+                    transform.eulerAngles = new Vector3(0, 0, 180);
+                    break;
+                case RotationType.Rot270:
+                    transform.eulerAngles = new Vector3(0, 0, 270);
+                    break;                                                            
+            }
+        }
+    }
+    private RotationType _rotationType;
 
     public void Set(Tile _leftTile, Tile _rightTile, int _sortIndex, RotationType _rotationType=RotationType.Rot0){
         leftTile = _leftTile;

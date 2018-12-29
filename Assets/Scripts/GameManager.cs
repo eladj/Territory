@@ -70,7 +70,7 @@ public class GameManager : MonoBehaviour
         if (Input.GetMouseButtonDown (0)) {    
             var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
-            if (Physics.Raycast(ray, out hit, 100)) {
+            if (Physics.Raycast(ray, out hit)) {
                 if(hit.collider.tag == "DominoTile") {                         
                     DominoTile dtile = hit.collider.GetComponent<DominoTile>();
                     Debug.Log("Mouse clicked domino tile: " + dtile.ToString());
@@ -87,7 +87,6 @@ public class GameManager : MonoBehaviour
 
                         if (!isFirstTurn){
                             Debug.Log("Making a move");
-                            // Move previous domino tile to player - TODO !!!
                             previousMoves[0].rotationType = RotationType.Rot0;
                             previousMoves[0].position.Set(col: 1, row: 1, true);
                             MakeMove(previousMoves[0]);
@@ -200,6 +199,7 @@ public class GameManager : MonoBehaviour
         // Move the domino tile GameObject to the relevant player
         DominoTile tile_obj = previousTurnCards[prev_ind];
         tile_obj.gameObject.transform.parent = players[player_ind].transform;
+        tile_obj.rotationType = move.rotationType;
 
         // Update the Board object of the player - TODO !!
 
