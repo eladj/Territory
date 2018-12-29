@@ -58,8 +58,8 @@ public class GameManager : MonoBehaviour
         playersMapPosition.Add(new Vector3(-10f, 0f, 0f));
         playersMapPosition.Add(new Vector3(0f, 10f, 0f));
         playersMapPosition.Add(new Vector3(10f, 0f, 0f));
-        previousCardsPosition = new Vector3(-1.5f, 0f, 0f);
-        nextCardsPosition = new Vector3(1.5f, 0f, 0f);
+        previousCardsPosition = new Vector3(-2f, 0f, 0f);
+        nextCardsPosition = new Vector3(2f, 0f, 0f);
         InitGame();
     }
 
@@ -86,6 +86,7 @@ public class GameManager : MonoBehaviour
                         nextMoves[card_ind].playerColor = previousMoves[0].playerColor;
 
                         if (!isFirstTurn){
+                            Debug.Log("Making a move");
                             // Move previous domino tile to player - TODO !!!
                             previousMoves[0].rotationType = RotationType.Rot0;
                             previousMoves[0].position.Set(col: 1, row: 1, true);
@@ -108,6 +109,10 @@ public class GameManager : MonoBehaviour
         }
 
         if (isTurnFinished){
+            // Remove the flag which indicates the first turn
+            if (isFirstTurn){
+                isFirstTurn = false;
+            }
             AdvanceTurn();
         }
     }
@@ -115,8 +120,9 @@ public class GameManager : MonoBehaviour
     void AdvanceTurn(){
         // Move next turn cards and moves to previous
         if (!isFirstTurn){
-            previousMoves = nextMoves;
-            previousTurnCards = nextTurnCards;
+            // Clone moves and cards list
+            previousMoves = new List<Move>(nextMoves);
+            previousTurnCards = new List<DominoTile>(nextTurnCards);
 
             // Place previous cards on position
             for (int n=0; n < nextTurnCards.Count; n++){
@@ -148,11 +154,6 @@ public class GameManager : MonoBehaviour
 
         // Re-intialize the flag to state that the turn has not finished
         isTurnFinished = false;
-
-        // Remove the flag which indicates the first turn
-        if (isFirstTurn){
-            isFirstTurn = false;
-        }
     }
 
     private void InitGame(){
@@ -162,6 +163,7 @@ public class GameManager : MonoBehaviour
         players = new List<Player>();
         previousMoves = new List<Move>();
         nextMoves = new List<Move>();
+        moves = new List<Move>();
 
         // Initialize the players GameObjects and properties
         for (int player_number=0; player_number < numOfPlayers; player_number++){
@@ -179,19 +181,21 @@ public class GameManager : MonoBehaviour
             previousMoves.Add(tmp_move);
         }
 
-        // Initiate the first turn
-        AdvanceTurn();
-
         // Flag that we are in the first turn
         isFirstTurn = true;
+
+        // Initiate the first turn
+        AdvanceTurn();
     }
 
     private void MakeMove(Move move){
         // Find the DominoTile index in the previous cards list
         int prev_ind = previousTurnCards.FindIndex(p => p.sortIndex == move.dominoTileSortIndex);
+        Debug.Log("prev_ind = " + prev_ind.ToString());
 
         // Find player index
         int player_ind = players.FindIndex(p => p.playerColor == move.playerColor);
+        Debug.Log("player_ind = " + player_ind.ToString());
 
         // Move the domino tile GameObject to the relevant player
         DominoTile tile_obj = previousTurnCards[prev_ind];
