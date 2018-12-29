@@ -5,7 +5,7 @@ using System;
 
 namespace Territory {
 
-public class Board : ScriptableObject 
+public class Board 
 {
     public const int NUM_ROWS = 5;
     public const int NUM_COLS = 5;
@@ -21,7 +21,7 @@ public class Board : ScriptableObject
 
     // We keep a dual representation of the game map to allow both
     // a fast computation of the score and of the valid moves.
-    private List<Property> groups;    // For fast compuatation of score
+    private List<Property> properties;    // For fast compuatation of score
     private Dictionary<TerrainType, BitArray2D> map_by_terrain;  // For fast checking of valid moves
 
     // Return a dictionary with each terrain map and its BitBoard representation
@@ -32,8 +32,8 @@ public class Board : ScriptableObject
             dict.Add(terrainType, new BitArray2D(cols: NUM_COLS_REPR, rows: NUM_ROWS_REPR));
         }
         // Aggregate over all groups
-        for (int i=0; i < groups.Count; i++){
-            dict[groups[i].terrainType].Or(groups[i].bitsMap);
+        for (int i=0; i < properties.Count; i++){
+            dict[properties[i].terrainType].Or(properties[i].bitsMap);
         }
         return dict;
     }
@@ -47,8 +47,8 @@ public class Board : ScriptableObject
     }
 
     public bool IsMoveValid(DominoTile domino_tile, int tile_ind){
-        for (int i=0; i < groups.Count; i++){
-            Property group = groups[i];
+        for (int i=0; i < properties.Count; i++){
+            Property group = properties[i];
         }
         // TODO
         return false;
@@ -56,8 +56,8 @@ public class Board : ScriptableObject
 
     public BitArray2D GetOccupancyMapFromGroups(){
         BitArray2D result = new BitArray2D(cols: NUM_COLS_REPR, rows: NUM_ROWS_REPR);
-        for (int i=0; i < groups.Count; i++){
-            result.Or(groups[i].bitsMap);
+        for (int i=0; i < properties.Count; i++){
+            result.Or(properties[i].bitsMap);
         }
         return result;
     }
